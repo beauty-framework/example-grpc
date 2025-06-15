@@ -4,6 +4,8 @@ This is an example of an gRPC microservice on Beauty Framework. This example imp
 
 Since the framework is still raw, repositories with raw queries are used instead of the ORM module, and a custom command is used instead of migrations. However, all missing modules will be added in the future.
 
+More docs about gRPC package in this repo [beauty-framework/grpc](https://github.com/beauty-framework/grpc)
+
 ---
 
 ## 📦 Installation
