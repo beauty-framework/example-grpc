@@ -1,0 +1,50 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+      target: prod
+    restart: always
+    container_name: grpc-br-app
+    working_dir: /var/www
+    ports:
+      - "8080:8080"
+      - "51015:51015"
+    volumes:
+      - .:/var/www:cached
+      - ./protoc-gen-php-grpc:/usr/local/bin/protoc-gen-php-grpc
+    depends_on:
+      - db
+      - redis
+    networks:
+      - example-grpc-beauty-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: grpc-br-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - example-grpc-beauty-network
+
+  redis:
+    image: redis:alpine
+    container_name: grpc-br-redis
+    restart: always
+    volumes:
+      - redis_data:/data
+    networks:
+      - example-grpc-beauty-network
+
+volumes:
+  pg_data:
+  redis_data:
+
+networks:
+  example-grpc-beauty-network:
+    driver: bridge

@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "proto/auth";
+option php_namespace = "GRPC\\Auth";
+option php_metadata_namespace = "GRPC\\GPBMetadata";
+
+package auth;
+
+service Auth {
+  rpc Login (LoginRequest) returns (AuthReply) {}
+  rpc Register (RegisterRequest) returns (AuthReply) {}
+  rpc Validate (ValidateRequest) returns (ValidateReply) {}
+  rpc Logout (ValidateRequest) returns (LogoutReply) {}
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message RegisterRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message ValidateRequest {
+  string token = 1;
+}
+
+message AuthReply {
+  string token = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message ValidateReply {
+  bool valid = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message LogoutReply {
+  bool success = 1;
+}
